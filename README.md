@@ -58,15 +58,14 @@ A complete ROS2 implementation of an Extended Kalman Filter (EKF) for 2D mobile 
 ### 1. Trajectory Comparison
 
 ![2D Trajectory](https://github.com/maduwanthasl/ros2-ekf-localization/blob/main/figures/trajectory_2d.png)
-
 The trajectory plot shows:
-- **Ground Truth** (red solid line): The actual robot path
-- **EKF Estimate** (green solid line): The filtered estimate closely tracking the truth
-- **GPS Measurements** (blue scatter): Noisy raw sensor data with ~10 cm standard deviation
-- **Dead Reckoning** (orange dashed line): Accumulates drift without sensor correction
 
-**Key Observation**: The EKF estimate remains tightly bound to the ground truth despite noisy GPS measurements, while dead-reckoning diverges due to accumulated odometry errors.
+- **Ground Truth** (black solid line): The actual robot path.
+- **EKF Estimate** (blue solid line): The filtered state estimate closely tracking the ground truth.
+- **GPS Measurements** (orange crosses): Noisy position measurements with approximately ±10 cm standard deviation.
+- **Start** (green marker) and **End** (red marker): Initial and final robot positions.
 
+**Key Observation**: The EKF estimate remains tightly bound to the ground truth despite significant GPS noise, demonstrating effective sensor fusion and error correction. This highlights the advantage of EKF-based localization over raw GPS measurements.
 ### 2. Position Error Analysis
 
 ![Position Error vs Time](https://github.com/maduwanthasl/ros2-ekf-localization/blob/main/figures/position_error_vs_time.png)
