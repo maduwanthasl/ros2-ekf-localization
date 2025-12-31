@@ -20,8 +20,6 @@ A complete ROS2 implementation of an Extended Kalman Filter (EKF) for 2D mobile 
 - 100+ Hz estimation from 5 Hz GPS measurements
 - Demonstrates significant improvement over dead-reckoning
 
-Perfect for learning robotics, state estimation, and ROS2 development.
-
 ---
 
 ## Simulation Details
