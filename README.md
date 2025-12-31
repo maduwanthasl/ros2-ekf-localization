@@ -108,7 +108,9 @@ The EKF yaw estimate closely follows the IMU yaw measurements while significantl
 
 ### 5. EKF vs Dead-Reckoning Comparison
 
-![DR vs EKF Error](https://github.com/maduwanthasl/ros2-ekf-localization/blob/main/figures/dr_vs_ekf_error.png)
+<img width="1065" height="528" alt="image" src="https://github.com/user-attachments/assets/6ef077cf-7cf0-41ea-bf45-d15931ac351a" />
+
+
 Performance comparison reveals:
 - **Dead-Reckoning Error**: Mean error of 13.2 cm, growing to 38.8 cm final drift due to cumulative odometry errors
 - **EKF Error**: Remains bounded at mean 8.6 cm through continuous GPS correction
