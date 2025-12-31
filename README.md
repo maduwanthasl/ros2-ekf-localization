@@ -69,17 +69,13 @@ The trajectory plot shows:
 ### 2. Position Error Analysis
 
 ![Position Error vs Time](https://github.com/maduwanthasl/ros2-ekf-localization/blob/main/figures/position_error_vs_time.png)
+#### Position Error Analysis
+The absolute position errors in both X and Y directions remain bounded throughout the simulation. The mean absolute error is approximately 5.7 cm in the X direction and 4.9 cm in the Y direction, with occasional peaks below 18 cm. The overall localization accuracy, quantified by an RMSE of 10.13 cm, demonstrates effective sensor fusion by the EKF under noisy GPS measurements.
 
-This plot demonstrates:
-- **X-axis error** (top): Mean error 6.7 cm, max ~15 cm
-- **Y-axis error** (bottom): Mean error 7.6 cm, max ~18 cm
-- **Overall RMSE**: 10.13 cm
-
-The errors remain bounded and consistent throughout the simulation, showing the EKF successfully filters out GPS noise while maintaining accurate state estimates.
 
 ![Combined Position Error](https://github.com/maduwanthasl/ros2-ekf-localization/blob/main/figures/position_error_combined.png)
 
-Combined view shows both X and Y errors oscillate around zero with consistent magnitude, indicating no systematic bias in either direction.
+The bounded and symmetric magnitudes of X and Y absolute errors suggest no dominant directional bias, indicating balanced EKF correction in both axes.
 
 ### 3. Heading Error
 
@@ -90,13 +86,15 @@ Heading estimation maintains:
 - **Stability**: Bounded errors throughout circular trajectory
 - **Convergence**: Quick settling from initial conditions
 
+The large transient spike in yaw error is caused by angle wrapping at the ±π boundary. This does not represent a true estimation failure; the EKF heading estimate remains continuous when angle normalization is applied.
+
 ### 4. Sensor Fusion Performance
 
 ![GPS vs EKF](https://github.com/maduwanthasl/ros2-ekf-localization/blob/main/figures/gps_vs_ekf.png)
 
 This overlay demonstrates:
 - **GPS measurements** (scattered points): Show significant noise in both X and Y
-- **EKF estimates** (smooth lines): Successfully filter noise while tracking the true trajectory
+- **EKF estimates** (smooth lines): Successfully filter GPS noise while tracking the underlying motion trajectory.
 - **Innovation statistics**: GPS noise std ~10 cm matches configured sensor noise
 
 ![IMU vs EKF](https://github.com/maduwanthasl/ros2-ekf-localization/blob/main/figures/imu_vs_ekf.png)
@@ -106,14 +104,18 @@ IMU yaw fusion shows:
 - **Consistent angular velocity** during circular motion
 - **Effective noise rejection** while preserving dynamics
 
+The EKF yaw estimate closely follows the IMU yaw measurements while significantly reducing high-frequency noise. The linear trend confirms consistent angular velocity during circular motion. The apparent discontinuity near ±180° is due to yaw angle wrapping and does not represent a loss of filter stability.
+
 ### 5. EKF vs Dead-Reckoning Comparison
 
 ![DR vs EKF Error](https://github.com/maduwanthasl/ros2-ekf-localization/blob/main/figures/dr_vs_ekf_error.png)
-
 Performance comparison reveals:
-- **Dead-Reckoning Error**: Grows unbounded due to integration drift
-- **EKF Error**: Remains bounded at ~10 cm
-- **Improvement**: >90% error reduction through sensor fusion
-- **Key Benefit**: EKF provides long-term stability that dead-reckoning cannot achieve
+- **Dead-Reckoning Error**: Mean error of 13.2 cm, growing to 38.8 cm final drift due to cumulative odometry errors
+- **EKF Error**: Remains bounded at mean 8.6 cm through continuous GPS correction
+- **Improvement**: 34.4% error reduction through sensor fusion
+- **Accuracy Gain**: EKF is 1.52× more accurate than dead-reckoning alone
+- **Key Benefit**: EKF provides long-term stability and bounded error that dead-reckoning cannot achieve
 
-**Conclusion**: The Extended Kalman Filter successfully fuses noisy GPS and IMU measurements to achieve 10 cm position accuracy—matching the GPS sensor noise level—while operating at 100+ Hz, demonstrating effective sensor fusion and state estimation.
+The plot clearly shows dead-reckoning error increasing over time as odometry noise accumulates, while EKF error remains consistently low and bounded through effective GPS/IMU sensor fusion.
+
+**Conclusion**: The Extended Kalman Filter successfully fuses noisy GPS and IMU measurements to achieve 9 cm mean position accuracy—approaching the GPS sensor noise level of 10 cm—while operating at 100+ Hz. This demonstrates effective sensor fusion and state estimation, with clear superiority over pure dead-reckoning which drifts to 13+ cm mean error.
